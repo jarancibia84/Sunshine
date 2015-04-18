@@ -94,6 +94,10 @@ public class ForecastFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 // Not implemented here
+                FetchWeatherclass weathertask = new FetchWeatherclass();
+                weathertask.execute();
+
+
                 return true;
 
         }
@@ -114,12 +118,12 @@ public class ForecastFragment extends Fragment {
     }*/
 
 
-    public class FetchWeatherclass extends AsyncTask<String, Void, Void>{
+    public class FetchWeatherclass extends AsyncTask<Void, Void, Void>{
 
         private final String LOG_TAG = FetchWeatherclass.class.getSimpleName();
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected Void doInBackground(Void... params) {
             //HTTP conection
             String urlRequest = "http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&cnt=7&units=metric";
             // These two need to be declared outside the try/catch
@@ -163,6 +167,7 @@ public class ForecastFragment extends Fragment {
                     return null;
                 }
                 forecastJsonStr = buffer.toString();
+                Log.v(LOG_TAG,"ForecastJson String: " + forecastJsonStr);
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error ", e);
                 // If the code didn't successfully get the weather data, there's no point in attemping
