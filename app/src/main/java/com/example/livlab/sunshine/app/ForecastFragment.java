@@ -12,8 +12,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +54,7 @@ public class ForecastFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         //***Se crea ArrayList y se agregan datos FORMA UDACITY
-        String[] ForecastArray  = {
+        String[] ForecastArray = {
                 "Monday - Sunny 10/25",
                 "Thuerday - Rain 10/20",
                 "Wednesday - Snow 5/15",
@@ -71,10 +73,27 @@ public class ForecastFragment extends Fragment {
                 weekForecast);
 
 
-        ListView myLista = (ListView)rootView.findViewById(R.id.listview_forecast);
+        final ListView myLista = (ListView) rootView.findViewById(R.id.listview_forecast);
         myLista.setAdapter(mForecastAdapter);
+        myLista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Log.v("LOG_TAG","hola");
+                String test = myLista.getItemAtPosition(position).toString();
+                Log.v("LOG_TAG","GetItem " + test);
+
+                Toast.makeText(getActivity(),myLista.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+
         return rootView;
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
