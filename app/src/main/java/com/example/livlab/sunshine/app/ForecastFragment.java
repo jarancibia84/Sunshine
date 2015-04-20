@@ -79,10 +79,7 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Log.v("LOG_TAG","hola");
-                String test = myLista.getItemAtPosition(position).toString();
-                Log.v("LOG_TAG","GetItem " + test);
-
+               // String forescastSelected = mForecastAdapter.getItem(position).toString();
                 Toast.makeText(getActivity(),myLista.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
 
             }
