@@ -1,5 +1,6 @@
 package com.example.livlab.sunshine.app;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,8 +80,11 @@ public class ForecastFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                // String forescastSelected = mForecastAdapter.getItem(position).toString();
-                Toast.makeText(getActivity(),myLista.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
-
+                //Toast.makeText(getActivity(),myLista.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
+                Intent detailActivity = new Intent(getActivity(), DetailActivity.class);
+                //detailActivity.putExtra("POSICION",myLista.getItemAtPosition(position).toString()); //JA
+                detailActivity.putExtra(Intent.EXTRA_TEXT,myLista.getItemAtPosition(position).toString()); //UDACITY
+                startActivity(detailActivity);
             }
         });
 
