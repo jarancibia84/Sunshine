@@ -13,9 +13,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //PreferenceManager.setDefaultValues(this,R.xml.pref_general,false);
-
-
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -23,7 +20,6 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
 
-        //http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&cnt=7&units=metric
         //http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&cnt=7&units=metric
     }
 
@@ -49,8 +45,6 @@ public class MainActivity extends ActionBarActivity {
             startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             return true;
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 

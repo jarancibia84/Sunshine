@@ -31,8 +31,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -58,24 +56,14 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        //***Se crea ArrayList y se agregan datos FORMA UDACITY
-        String[] ForecastArray = {
-                "Monday - Sunny 10/25",
-                "Thuerday - Rain 10/20",
-                "Wednesday - Snow 5/15",
-                "Thuesday - Clear 10/33",
-                "Friday - Sunny 10/40",
-                "Saturday - Sunny 12/25",
-                "Sunday - Sunny 10/25"
-        };
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(ForecastArray));
+       // List<String> weekForecast = new ArrayList<String>(Arrays.asList(ForecastArray));
 
         mForecastAdapter = new ArrayAdapter(
 
                 getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
-                weekForecast);
+                new ArrayList<String>());
 
 
         final ListView myLista = (ListView) rootView.findViewById(R.id.listview_forecast);
@@ -106,22 +94,32 @@ public class ForecastFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 // Not implemented here
-                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                String location = pref.getString(getString(R.string.pref_location_key),
-                                getString(R.string.pref_location_default));
-                FetchWeatherclass weathertask = new FetchWeatherclass();
-                weathertask.execute(location); //Codigo postal Santiago
+                updateWeather();
 
                 return true;
         }
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWeather() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = pref.getString(getString(R.string.pref_location_key),
+                        getString(R.string.pref_location_default));
+        FetchWeatherclass weathertask = new FetchWeatherclass();
+        weathertask.execute(location); //Codigo postal Santiago
     }
 
     public class FetchWeatherclass extends AsyncTask<String, Void, String[]>{
