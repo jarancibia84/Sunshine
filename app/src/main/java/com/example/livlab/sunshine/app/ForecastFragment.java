@@ -1,9 +1,11 @@
 package com.example.livlab.sunshine.app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -38,6 +40,7 @@ import java.util.List;
 public class ForecastFragment extends Fragment {
 
     public ArrayAdapter mForecastAdapter;
+    public String postalCode;
 
     public ForecastFragment() {
     }
@@ -46,6 +49,8 @@ public class ForecastFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+
     }
 
     @Override
@@ -106,8 +111,11 @@ public class ForecastFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 // Not implemented here
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String location = pref.getString(getString(R.string.pref_location_key),
+                                getString(R.string.pref_location_default));
                 FetchWeatherclass weathertask = new FetchWeatherclass();
-                weathertask.execute("8320000"); //Codigo postal Santiago
+                weathertask.execute(location); //Codigo postal Santiago
 
                 return true;
         }
