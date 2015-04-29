@@ -1,14 +1,19 @@
 package com.example.livlab.sunshine.app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +49,36 @@ public class MainActivity extends ActionBarActivity {
 
             startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             return true;
+        } else if (id == R.id.actions_map) {
+            openPreferredLocationInMap();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void openPreferredLocationInMap() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String location = pref.getString(getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default));
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
+                               .appendQueryParameter("q", location)
+                               .build();
+
+        /******JA STYLE*******
+        String geoAddress = "geo:0,0?q=" + location; //JA Style
+        Uri geo = Uri.parse(geoAddress);
+         ********/
+
+        intent.setData(geoLocation);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+        else {
+            Log.d(LOG_TAG, "Couldn't call " + location + ", no receiving apps installed!");
+        }
+
+
+    }
 }
