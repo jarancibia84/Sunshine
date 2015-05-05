@@ -17,7 +17,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.v(LOG_TAG, " is onCreate");
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -25,9 +25,37 @@ public class MainActivity extends ActionBarActivity {
                     .commit();
         }
 
-        //http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&cnt=7&units=metric
     }
 
+    @Override
+     protected void onStop() {
+        Log.v(LOG_TAG, " is onStop");
+        super.onStop();
+    }
+
+    @Override
+    protected void onStart() {
+        Log.v(LOG_TAG, " is onStart");
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.v(LOG_TAG, " is onResume");
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.v(LOG_TAG, " is onDestroy");
+        super.onDestroy();
+    }
+
+    @Override
+        protected void onPause() {
+        Log.v(LOG_TAG, " is onPause");
+        super.onPause();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -35,7 +63,6 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -70,7 +97,6 @@ public class MainActivity extends ActionBarActivity {
         String geoAddress = "geo:0,0?q=" + location; //JA Style
         Uri geo = Uri.parse(geoAddress);
          ********/
-
         intent.setData(geoLocation);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);

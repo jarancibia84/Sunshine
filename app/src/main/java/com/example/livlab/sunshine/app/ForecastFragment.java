@@ -39,12 +39,13 @@ public class ForecastFragment extends Fragment {
 
     public ArrayAdapter mForecastAdapter;
     public String postalCode;
-
+    private String LOG_TAG = ForecastFragment.class.getSimpleName();
     public ForecastFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.v(LOG_TAG, "on Create");
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -53,9 +54,6 @@ public class ForecastFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-       // List<String> weekForecast = new ArrayList<String>(Arrays.asList(ForecastArray));
-
         mForecastAdapter = new ArrayAdapter(
 
                 getActivity(),
@@ -63,23 +61,17 @@ public class ForecastFragment extends Fragment {
                 R.id.list_item_forecast_textview,
                 new ArrayList<String>());
 
-
         final ListView myLista = (ListView) rootView.findViewById(R.id.listview_forecast);
         myLista.setAdapter(mForecastAdapter);
         myLista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-               // String forescastSelected = mForecastAdapter.getItem(position).toString();
-                //Toast.makeText(getActivity(),myLista.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
                 Intent detailActivity = new Intent(getActivity(), DetailActivity.class);
                 //detailActivity.putExtra("POSICION",myLista.getItemAtPosition(position).toString()); //JA
                 detailActivity.putExtra(Intent.EXTRA_TEXT,myLista.getItemAtPosition(position).toString()); //UDACITY
                 startActivity(detailActivity);
             }
         });
-
-
 
         return rootView;
     }
@@ -92,6 +84,7 @@ public class ForecastFragment extends Fragment {
 
     @Override
     public void onStart() {
+        Log.v(LOG_TAG, "on Start");
         super.onStart();
         updateWeather();
     }
@@ -103,7 +96,6 @@ public class ForecastFragment extends Fragment {
             case R.id.action_refresh:
                 // Not implemented here
                 updateWeather();
-
                 return true;
         }
 
