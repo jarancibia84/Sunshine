@@ -272,34 +272,36 @@ public class WeatherProvider extends ContentProvider {
 
         // Student: Use the uriMatcher to match the WEATHER and LOCATION URI's we are going to
         // handle.  If it doesn't match these, throw an UnsupportedOperationException.
-
+        if ( null == selection ) selection = "1";
         switch (match) {
 
             case WEATHER: {
-                int rows = db.delete(WeatherContract.WeatherEntry.TABLE_NAME,
+                rowsDeleted = db.delete(WeatherContract.WeatherEntry.TABLE_NAME,
                                              selection,
                                              selectionArgs);
-                if(rows != 0 || selection == null)
+               /* if(rows != 0 || selection == null)
                 {
                     rowsDeleted = rows;
                 }
                  else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
-                }
+                }*/
                 break;
             }
 
             case LOCATION: {
-                int rows = db.delete(WeatherContract.LocationEntry.TABLE_NAME,
+
+                rowsDeleted = db.delete(WeatherContract.LocationEntry.TABLE_NAME,
                         selection,
                         selectionArgs);
+             /*   Log.v("String: ", "Error rows " + rows + " selection " + selection);
                 if(rows != 0 || selection == null)
                 {
                     rowsDeleted = rows;
                 }
                 else {
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
-                }
+                   // throw new android.database.SQLException("Failed to insert row into " + uri);
+                }*/
                 break;
             }
             default: {
@@ -313,8 +315,9 @@ public class WeatherProvider extends ContentProvider {
         // the uri listeners (using the content resolver) if the rowsDeleted != 0 or the selection
         // is null.
         // Oh, and you should notify the listeners here.
-        getContext().getContentResolver().notifyChange(uri,null);
-        // Student: return the actual rows deleted
+       if (rowsDeleted != 0) {
+                     getContext().getContentResolver().notifyChange(uri, null);
+                 }
         return rowsDeleted;
     }
 
